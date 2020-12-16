@@ -1,5 +1,5 @@
 %! TEX root = **/010-main.tex
-% vim: spell spelllang=en:
+% vim: spell spelllang=ca:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PREAMBLE
@@ -13,8 +13,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % METADATA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{My title \\ \Large \normalfont My Subtitle}
-\author{First Author \\ Second Author}
+\title{Backups\\ \Large \normalfont ASO}
+\author{Aleix Bon\'e Rib\'o}
 \date{\today}
 
 \begin{document}
@@ -22,50 +22,22 @@
 % TITLE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    % Default title or use titlepage.tex
-
-    %\maketitle
-    \include{020-titlepage}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TOC & lists
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    \pagenumbering{Roman}
-
-    %\setcounter{tocdepth}{2}
-    \tableofcontents \pagebreak
-
-    \listoffigures \pagebreak
-    \listoftables \clearpage
-
-    \pagenumbering{arabic}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SECTIONS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \maketitle
 
     % Paragraph spacing (placed after ToC)
     \setlength{\parskip}{1em plus 0.5em minus 0.2em}
-    %\setlength{\parindent}{0pt}
-
-    \include{030-mysection}
+    \setlength{\parindent}{0pt}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% BIBLIO
+% ENUNCIAT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    \printbibliography[heading=bibintoc]
+    \input{020-enunciat}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% APPENDIX
+% RESPOSTES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    % uncomment to add appendix section prefix to numbering
-    %\appendixpagenumbering
-
-    \appendix
-
-    \include{990-appendix}
+    \include{030-particions}
 
 \end{document}

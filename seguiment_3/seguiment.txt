@@ -1,0 +1,29 @@
+Pràctica de Miniaturització
+===========================
+
+Comanda ps
+----------
+
+```
+ps -o user,pid,sgi_p,stat,args
+```
+
+Comanda top
+-----------
+
+Prement `1` activem el summary per cada processador en comptes del general.
+
+Amb la tecla `f` podem seleccionar quines columnes mostrar. Per veure
+a quina CPU s'ha executat cada procés activem la columna `P`:
+
+    P       = Last Used Cpu (SMP)
+
+Aquesta columna ens indica quina es l'ultima CPU que ha utilitzat el procés.
+
+Per fer que top ens mostri threads en comptes dels processos premem la tecla `H`.
+
+Eina netstat
+------------
+
+Per mostrar tots els socket del sistema utilitzem la flag `-a` (Mostra els que
+estan "LISTENING")

@@ -1,0 +1,5 @@
+profe@asoserver:/shared$ rm -rf d1
+student@asoserver:/shared$ echo Testing >> d1/f1
+profe@asoserver:/shared$ mv d1/f1 d1/f2
+profe@asoserver:/shared$ touch d2/fileASO
+rserral@asoserver:/shared$ rm -rf d2

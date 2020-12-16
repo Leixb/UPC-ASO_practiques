@@ -1,0 +1,23 @@
+rserral@asoserver:/shared$ ls -Rla
+.:
+total 18
+drwxr-xrwx  4 rserral profe   4096 Oct 11 10:59 .
+drwxr-xr-x 12 root    root    4096 Oct 11 10:59 ..
+dr-xrwx--x  2 rserral profe   4096 Oct 11 11:18 d1
+drwxrwsrwt  2 root    aso     4096 Oct 11 11:18 d2
+
+./d1:
+total 8
+dr-xrwx--x 2 rserral profe   4096 Oct 11 11:18 .
+drwxr-xrwx 4 rserral profe   4096 Oct 11 10:59 ..
+-rwx--x--- 1 root    rserral    6 Oct 11 11:19 f2
+-r--rw-rw- 1 profe   rserral 3451 Oct 11 11:00 f1
+
+./d2:
+total 7
+drwxrwsrwt 2 root    aso     4096 Oct 11 11:18 .
+dr-xrwxr-x 4 rserral profe   4096 Oct 11 10:59 ..
+-rwxrwxr-- 1 root    profe      6 Oct 11 11:19 file
+
+aso:~$ umask
+0022

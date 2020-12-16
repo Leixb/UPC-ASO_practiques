@@ -1,4 +1,2 @@
-LaTeX template
-==============
-
-Simple multipurpose LaTeX template using luatex and `latexmk`.
+Practiques raco ASO
+===================

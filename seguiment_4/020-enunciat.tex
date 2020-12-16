@@ -1,0 +1,40 @@
+%! TEX root = **/010-main.tex
+% vim: spell spelllang=ca:
+
+    Se'ns diu que disposem de:
+
+    \begin{itemize}
+        \item 1 disc d'1 TByte
+        \item 1 unitat de cintes de 5TBytes, amb robot que carrega automàticament la cinta necessitada
+    \end{itemize}
+
+    L'organització del disc del que volem fer backup en particions és aquesta:
+
+    \begin{minted}[linenos=false]{text}
+/ i /usr      50 Gb   /dev/sda1    90% d'ocupació   1 canvi gran cada 6 mesos
+/tmp          20 Gb   /dev/sda2    20%              molts canvis
+/var/log      20 Gb   /dev/sda4    10%              molts canvis, increment ràpid
+/var/mail     40 Gb   /dev/sda5    50%              molts canvis petits
+/usr/local   100 Gb   /dev/sda6    50%              1 canvi gran cada mes
+/opt         200 Gb   /dev/sda7    50%              1 canvi gran cada 3 mesos
+/database    115 Gb   /dev/sda8    80%              canvis petits diaris
+/home        500 Gb   /dev/sda9    30%              canvis petits diaris
+    \end{minted}
+
+    Definiu una política de backups per les particions anteriors. Per a cadascuna indiqueu:
+
+    \begin{itemize}
+        \item Tipus de backup
+        \item Freqüència del backup total
+        \item Freq. del backup incremental (o incremental invers)
+        \item Backup en Disc o cinta i per què?
+        \item Indiqueu la política d'expiració
+    \end{itemize}
+
+    Podeu consultar aquesta informació:
+
+    \url{http://en.wikipedia.org/wiki/Hard_disk_drive}
+
+    \url{http://en.wikipedia.org/wiki/Tape_drive}
+
+    Entregueu les respostes per a cada partició en un document PDF.

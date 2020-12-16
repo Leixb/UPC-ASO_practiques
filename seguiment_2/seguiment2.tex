@@ -1,0 +1,148 @@
+% vim: spell spelllang=ca:
+\documentclass[12pt, oneside]{article}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{fontspec}
+\setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
+
+\usepackage[colorlinks]{hyperref}
+
+\usepackage{xcolor}
+\usepackage{minted}
+\definecolor{codeBg}{HTML}{FFFDED}
+\setminted[shell-session]{
+    % style=monokai,
+    frame=single,
+    framesep=3mm,
+    % linenos,
+    breaklines=true,
+    encoding=utf8,
+    fontsize=\footnotesize,
+    bgcolor=codeBg
+}
+
+\title{
+    \bfseries
+    Administració de Sistemes Operatius \\
+    \Large
+Segona pràctica \\
+\large
+Insta\lgem ació d'aplicacions
+}
+\author{
+Aleix Boné Ribó
+}
+
+\newcommand{\preglim}{6}
+\newcommand{\preguntaminted}[1]{
+    \ifnum#1<\preglim
+        \inputminted[firstline=#1, lastline=#1]{shell-session}{commandes}
+        \vspace{-2em}
+    \else
+        \vspace{1em}
+    \fi
+}
+
+\newcommand{\pregunta}[1]{
+    \vspace{2em}
+\item #1 \preguntaminted{\theenumi}
+    \addcontentsline{toc}{section}{Pregunta \theenumi}
+}
+
+\newcommand{\preg}[2][0]{
+    \ifnum#1=0
+        \inputminted[firstline=#2, lastline=#2]{shell-session}{preg6}
+    \else
+        \inputminted[firstline=#1, lastline=#2]{shell-session}{preg6}
+    \fi
+    \vspace{-2em}
+}
+
+\begin{document}
+
+\maketitle
+
+\hrulefill
+
+\vspace{2em}
+
+Actualment tenim un servidor d'aplicacions amb la versió 11 de Java, ja que és
+necessària per poder executar l'aplicació de facturació que es fa servir a
+l'empresa. Un dels usuaris en diu que necessita insta\lgem ar una altra aplicació
+de gestió de clients que requereix la versió 14. Indica com gestionaries aquesta
+situació sabent el següent:
+
+\begin{enumerate}
+    \item Volem que el canvi sigui el menys disruptiu possible
+
+    \item És imprescindible que tots els usuaris continuïn utilitzant el software actual sense problemes
+
+    \item Volem donar un mecanisme a l'usuari que demana aquesta nova aplicació que pugui utilitzar les dues aplicacions a la vegada
+
+    \item Indica com migraries gradualment l'ús de l'aplicació vella per la nova
+\end{enumerate}
+
+\hrulefill
+
+\pagebreak
+
+\subsection*{Insta\lgem ació}
+
+Assumint que estem utilitzant \emph{debian buster} i tenim insta\lgem at java 11 a través
+dels binaris precompilats de la distribució (\texttt{openjdk-11-jre} insta\lgem
+at a \texttt{/usr/lib/jvm/java-8-openjdk}).
+
+Per insta\lgem ar la nova versió tenim dues possibilitats: insta\lgem ar a partir de
+binaris precompilats o a partir de binaris autoinstalables. La versió 14 de java
+no es troba al repositori de paquets de \emph{debian buster} i hauríem d'afegir un nou
+repositori si volem fer el primer mètode, com que volem que el canvi sigui el
+menys disruptiu seguirem el segon mètode.
+
+Així doncs, insta\lgem arem la nova versió de java al directori
+\texttt{/opt/java14}. Podem descarregar la versió 14 de java de la pàgina web de
+OpenJDK: \url{https://jdk.java.net/archive/} (o la versió comercial d'oracle).
+La instalacio simplement consisteix en descomprimit els continguts a la carpeta
+de destí (en aquest cas \texttt{/opt}):
+
+\inputminted{shell-session}{download}
+
+Els binaris de java 14 es troben a \texttt{/opt/jdk14.0.2/bin}. L'usuari que vol
+utilitzar la nova versió pot afegir aquest directori al principi del seu
+\texttt{PATH} i utilitzar java 14 en comptes de 11. Si volgués utilitzar 11
+hauria de cridar la binaria de java amb el path complet: \texttt{/usr/bin/java}
+
+Per facilitar la crida, podem afegir enllaços simbòlics a java14 a
+\texttt{/usr/bin}:
+
+\inputminted{shell-session}{links}
+
+D'aquesta manera, no cal que l'usuari modifiqui el \texttt{PATH} i pot cridar
+els binaris de java 14 com a \texttt{java-14}, \texttt{jar-14}, \dots.
+
+\pagebreak
+\subsection*{Migració}
+
+Per migrar la resta d'usuaris del sistema a java-14, podem moure l'actual
+enllaç de \texttt{/usr/bin/java} a \texttt{/usr/bin/java-11} i crear un nou
+enllaç \texttt{/usr/bin/java} a un que apunti a \texttt{/opt/jdk14.0.2/bin/java}.
+Això faria que per defecte el sistema utilitzés java 14 i la versió antiga
+encara es pogués accedir. El canvi es fàcil de revertir si es detectés alguna
+incompatibilitat amb la nova versió.
+
+Tot i que el mètode descrit funcionaria, \emph{debian} ens proporciona un sistema per
+administrar la creació de symlinks a diferents versions d'un mateix programa
+documentat a \texttt{update-alternatives(1)}. El sistema consisteix en crear un
+enllaç a \texttt{/usr/bin/java} apuntant a \texttt{/etc/alternatives/java} que
+al seu torn es un enllaç a la binaria de java que volem. Això permet tenir tots
+els programes amb alternatives a la carpeta \texttt{/etc/alternatives} i
+gestionar-los mes fàcilment. En el nostre cas, caldria afegir la nostra
+insta\lgem ació de java a les \texttt{update-alternatives}
+
+\inputminted{shell-session}{aptinstall}
+
+(S'hauria de realitzar el mateix procediment per la resta de comandes de java
+necessàries: \texttt{jar}, \texttt{keytool}, \dots)
+
+\end{document}

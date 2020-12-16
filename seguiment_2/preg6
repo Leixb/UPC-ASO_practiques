@@ -1,0 +1,7 @@
+aso@host:~$ chmod 751 /home/aso
+aso@host:~$ chmod o=x /home/aso # alternativa
+aso@host:~$ chmod o= /home/aso/* /home/aso/.* # no olvidar les dotfiles
+aso@host:~$ echo umask o= >>~/.bashrc # 027
+aso@host:~$ chgrp users /home/aso/shared_folder
+aso@host:~$ chmod g=rwx /home/aso/shared_folder
+aso@host:~$ chmod +t /home/aso/shared_folder

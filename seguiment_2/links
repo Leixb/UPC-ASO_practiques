@@ -1,0 +1,1 @@
+user@host$ for i in /opt/jdk-14.0.2/bin/*; do ln -s "$i" "/usr/bin/${i##*/}-14"; done

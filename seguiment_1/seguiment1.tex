@@ -1,0 +1,205 @@
+% vim: spell spelllang=ca:
+\documentclass[12pt, oneside]{article}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+
+\usepackage[T1]{fontenc}
+\usepackage[catalan]{babel}
+\usepackage{fontspec}
+\setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
+
+\usepackage{hyperref}
+
+\usepackage{xcolor}
+\usepackage{minted}
+\definecolor{codeBg}{HTML}{FFFDED}
+\setminted[shell-session]{
+    % style=monokai,
+    frame=single,
+    framesep=3mm,
+    % linenos,
+    breaklines=true,
+    encoding=utf8,
+    fontsize=\footnotesize,
+    bgcolor=codeBg
+}
+
+\title{
+    \bfseries
+    Administració de Sistemes Operatius \\
+    \Large
+Primera pràctica \\
+\large
+Permisos i proteccions
+}
+\author{
+Aleix Boné Ribó
+}
+
+\newcommand{\preglim}{6}
+\newcommand{\preguntaminted}[1]{
+    \ifnum#1<\preglim
+        \inputminted[firstline=#1, lastline=#1]{shell-session}{commandes}
+        \vspace{-2em}
+    \else
+        \vspace{1em}
+    \fi
+}
+
+\newcommand{\pregunta}[1]{
+    \vspace{2em}
+\item #1 \preguntaminted{\theenumi}
+    \addcontentsline{toc}{section}{Pregunta \theenumi}
+}
+
+\newcommand{\preg}[2][0]{
+    \ifnum#1=0
+        \inputminted[firstline=#2, lastline=#2]{shell-session}{preg6}
+    \else
+        \inputminted[firstline=#1, lastline=#2]{shell-session}{preg6}
+    \fi
+    \vspace{-2em}
+}
+
+\begin{document}
+
+\maketitle
+
+\addcontentsline{toc}{section}{Enunciat}
+\begin{center}
+Donat el següent estat d'un directori, respon a les preguntes que es plantegen
+\end{center}
+
+\inputminted{shell-session}{enunciat}
+
+\begin{itemize}
+    \item \textbf{Nota:} Per defecte un usuari només pertany al grup que té el mateix nom que ell.
+
+    \item \textbf{Nota 2:} Assumeix que cada pregunta és independent, o sigui que l'efecte de les comandes NO es propaga a les altres preguntes.
+\end{itemize}
+
+\pagebreak
+
+\begin{center}
+    Respon JUSTIFICANT cada resposta a les següents preguntes
+\end{center}
+
+\begin{enumerate}
+
+    \pregunta{Indica si funcionaria la següent comanda:}
+
+    No funcionaria completament:
+
+    L'usuari \texttt{profe} té permisos de lectura, escriptura i execució
+    (accés) al directori \texttt{d1}. Per tant pot llistar els continguts del
+    directori i eliminar tots els fitxers. Al tenir la \texttt{flag} \texttt{-f,
+    --force} no demana confirmació al eliminar els fitxers als que no té permís
+    d'escriptura (\texttt{f1} i \texttt{f2}).
+
+    El que no pot fer és eliminar el directori \texttt{d1}, ja que al formar
+    part del grup \texttt{profe}, no té permisos d'escriptura a la carpeta
+    \texttt{/shared}.
+
+    Així doncs, la comanda eliminaria els fitxers continguts a \texttt{d1} i
+    fallaria al eliminar el directori \texttt{d1}. Quedaria el directori buit,
+    però sense eliminar.
+
+    \pregunta{Quin és l'efecte d'executar:}
+
+    Com que l'arxiu ja existeix en el sistema, no s'ha d'afegir com a entrada al
+    directori \texttt{d1}, per tant només necessitem permisos d'escriptura en el
+    fitxer \texttt{d1/f1} i d'accés al directori (només cal permís d'execució,
+    el permís de lectura no és necessari ja que no cal llistar els continguts de
+    la carpeta).
+
+    En aquest cas l'usuari \texttt{student} té els permisos adients i per tant
+    la comanda s'executarà amb èxit afegint una línia amb \texttt{Testing} al
+    final de l'arxiu \texttt{d1/f1}.
+
+    \pregunta{Tindria èxit executar:}
+
+    Sí. L'usuari \texttt{profe} té permisos d'escriptura al directori
+    \texttt{d1}, per tant pot realitzar la comanda. Tot i així, al no tenir
+    permisos d'escriptura al fitxer \texttt{d1/f2}, la comanda preguntarà si vol
+    sobreescriure el fitxer al usuari (ja que no s'ha especificat la \emph{flag}
+    \texttt{-f, --force}).
+
+    \pagebreak
+    \null
+    \vspace{1em}
+
+    \pregunta{Quins permisos, propietari i grup tindria un fitxer creat amb
+    aquesta comanda?}
+
+    Tindrà permisos 644 (\texttt{rw-r--r--}) i usuari i grup \texttt{profe}.
+    Per defecte la comanda \texttt{touch} crea fitxers amb permisos 666. Al
+    aplicar la \texttt{umask} de 022\footnotemark, els permisos resultants són 644.
+    L'usuari i grup són ambdós \texttt{profe} ja que la comanda s'ha executat
+    amb aquest usuari.
+
+    \footnotetext{Assumint que la \texttt{umask} de l'usuari \texttt{profe} és
+    igual a la de l'usuari \texttt{aso} que es mostra a l'enunciat.}
+
+    \pregunta{Funcionaria la següent comanda?}
+
+    No. El directori \texttt{d2} té el bit \emph{sticky} activat (\texttt{t}),
+    per tant, només els propietaris dels arxius (i \texttt{root}) poden
+    eliminar-los del directori. El propietari de \texttt{d2/file} no és
+    \texttt{rserral}, per tant la comanda mostra un error indicant que no es pot
+    eliminar el fitxer \texttt{d2/file} i acaba. No es produeix cap modificació
+    al sistema de fitxers ja que no hi ha cap fitxer pertanyent a
+    \texttt{rserral} dins el directori i aquest no es pot eliminar ja que no
+    està buit.
+
+    \vspace{2em}
+
+    \pagebreak
+
+    \pregunta{Volem oferir un directori del nostre home:
+        \texttt{/home/aso/shared\_folder} a tots els usuaris del grup
+        \texttt{users}, però al mateix temps volem restringir que puguin accedir
+        de forma senzilla al directori \texttt{/home/aso} i als altres
+        subdirectoris que hi pugui haver. Indica la millor manera de poder
+        aconseguir això modificant els permisos dels directoris que creguis
+    oportú.}
+
+    \vspace{1em}
+
+    Modificarem els permisos de \texttt{/home/aso} per eliminar el permís de
+    lectura, deixant-lo en: 751 i amb propietari i grup \texttt{aso}. D'aquesta
+    manera els usuaris del grup \texttt{users} només poden accedir al directori
+    però no llistar el seu contingut.
+
+    \preg[1]{2}
+
+    Al no poder llistar el contingut només poden accedir a les carpetes i arxius
+    de les quals tinguin coneixement. Aquest tipus de seguretat per ofuscació
+    no és gens segura, ja que és molt probable que tinguem algunes carpetes com
+    \texttt{Documents} o fitxers \texttt{\textasciitilde/.bashrc} fàcils
+    d'endevinar. Per assegurar-nos que no es pugui accedir a cap carpeta o
+    fitxer hem de canviar els permisos de tots els fitxers de
+    \texttt{/home/aso}.
+
+    \preg{3}
+
+    Això soluciona el problema per els fitxers actuals, si volem evitar que futurs
+    nous fitxers creats pugin ser llegits haurem d'utilitzar una \texttt{umask}
+    que restringeixi tots els permisos als usuaris que no pertanyin al grup del
+    fitxer (\texttt{o-rwx} / \texttt{o=}).  Per que aquest canvi sigui persistent l'hem
+    d'afegir al \texttt{\textasciitilde/.bashrc} o equivalent.
+
+    \preg{4}
+
+    Un cop restringit l'accés a totes les carpetes, modifiquem la carpeta
+    \texttt{shared\_folder} canviant el seu grup a \texttt{users} i donant
+    permisos \texttt{rwx} al grup a la carpeta:
+
+    \preg[5]{6}
+
+    Al ser una carpeta compartida, és possible que ens interessi activar el bit
+    \emph{sticky} per evitar que els usuaris puguin eliminar arxius de la resta.
+
+    \preg{7}
+
+\end{enumerate}
+
+\end{document}
