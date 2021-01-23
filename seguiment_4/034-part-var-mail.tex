@@ -1,5 +1,13 @@
 %! TEX root = **/010-main.tex
-% vim: spell spelllang=en:
+% vim: spell spelllang=ca:
 
-\section{Particio}%
-\label{sec:part_}
+\section{Particio \texttt{/var/mail}}%
+\label{sec:part_mail}
+
+\begin{itemize}
+    \entry{Tipus de backup}{incremental invers}
+    \entry{Freqüència del backup total}{-}
+    \entry{Freqüència del backup incremental}{diari}
+    \entry{Backup en}{disc} (no ocupa gaire espai i necessitem accés aleatori pel backup incremental invers)
+    \entry{Política d'expiració}{no expira o expiració molt alta}
+\end{itemize}

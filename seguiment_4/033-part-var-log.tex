@@ -1,5 +1,13 @@
 %! TEX root = **/010-main.tex
-% vim: spell spelllang=en:
+% vim: spell spelllang=ca:
 
-\section{Particio}%
-\label{sec:part_}
+\section{Partició \texttt{/var/log}}%
+\label{sec:part_var_log}
+
+\begin{itemize}
+    \entry{Tipus de backup}{incremental i total cada mes, comprimit}
+    \entry{Freqüència del backup total}{mensual}
+    \entry{Freqüència del backup incremental}{diari}
+    \entry{Backup en}{cinta} (creix molt rapid i volem guardar logs molt antics)
+    \entry{Política d'expiració}{no expira o expiració molt alta} (es possible requerir logs d'un atac de fa un any o mes que no s'havia detectat inicialment)
+\end{itemize}

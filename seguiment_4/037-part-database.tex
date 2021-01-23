@@ -1,5 +1,13 @@
 %! TEX root = **/010-main.tex
-% vim: spell spelllang=en:
+% vim: spell spelllang=ca:
 
-\section{Particio}%
-\label{sec:part_}
+\section{Partició \texttt{/database}}%
+\label{sec:part_opt}
+
+\begin{itemize}
+    \entry{Tipus de backup}{complet comprimit (utilitzant eines de la base de dades per fer el backup)}
+    \entry{Freqüència del backup total}{diari}
+    \entry{Freqüència del backup incremental}{-}
+    \entry{Backup en}{disc i cinta} (Guardem els últims 5 dies laborables en disc i cada setmana movem a cinta la copia del divendres. Així garantim la disponibilitat immediata del disc i conservem versions antigues a la cinta)
+    \entry{Política d'expiració}{5 dies en disc i 12 mesos en cinta}
+\end{itemize}
